@@ -13,24 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  List<ImageRow> firstImageList = [
-    ImageRow(
-        imageName: "assets/images/img1.jpg",
-        title: "LIFESTYLE",
-        description: "A complete guide for your new born baby",
-        lessons: 16),
-    ImageRow(
-        imageName: "assets/images/img2.jpg",
-        title: "WORKING PARENT",
-        description: "Understanding child behaviour",
-        lessons: 12),
-    ImageRow(
-        imageName: "assets/images/img3.jpg",
-        title: "WORK-LIFE BALANCE",
-        description: "Managing life better in a productive way",
-        lessons: 10),
-  ];
-
   List<ImageRow> eventImageList = [
     ImageRow(
       imageName: "assets/images/img4.jpg",
@@ -54,33 +36,6 @@ class _HomePageState extends State<HomePage> {
       description: "Managing life better in a productive way",
       tag: true,
       tagName: "event",
-      lessons: 0,
-    ),
-  ];
-
-  List<ImageRow> lessonImageList = [
-    ImageRow(
-      imageName: "assets/images/img4.jpg",
-      title: "BABY CARE",
-      description: "A complete guide for your new born baby",
-      tag: true,
-      tagName: "lesson",
-      lessons: 0,
-    ),
-    ImageRow(
-      imageName: "assets/images/img5.jpg",
-      title: "BABY CARE",
-      description: "Understanding child behaviour",
-      tag: true,
-      tagName: "lesson",
-      lessons: 0,
-    ),
-    ImageRow(
-      imageName: "assets/images/img4.jpg",
-      title: "BABY CARE",
-      description: "Managing life better in a productive way",
-      tag: true,
-      tagName: "lesson",
       lessons: 0,
     ),
   ];
@@ -200,12 +155,10 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         buildRowTitle("Programs for you"),
                         buildProgramsCardTile(),
-                        //buildCardTile(firstImageList),
                         buildRowTitle("Events and experiences"),
                         buildCardTile(eventImageList),
                         buildRowTitle("Lessons for you"),
                         buildLessonsCardTile(),
-                        //buildCardTile(lessonImageList),
                       ],
                     ),
                   ),
