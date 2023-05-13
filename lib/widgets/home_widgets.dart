@@ -102,21 +102,22 @@ Widget buildRowItem(Icon iconName, String iconText) {
     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
     decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10.w),
+        borderRadius: BorderRadius.circular(8.w),
         border: Border.all(
           color: Colors.blue,
         )),
     child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
       child: Row(
         children: [
           iconName,
           SizedBox(
-            width: 4.w,
+            width: 3.w,
           ),
           Text(
             iconText,
-            style: const TextStyle(
+            style: TextStyle(
+              fontSize: 12.sp,
               color: Colors.blue,
             ),
           ),
@@ -267,7 +268,7 @@ Widget builImageRowItem(ImageRow imageRow) {
           style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
-              fontSize: 12.sp),
+              fontSize: 10.sp),
         ),
         SizedBox(
           height: 10.h,
