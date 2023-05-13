@@ -18,63 +18,77 @@ class _HomePageState extends State<HomePage> {
         imageName: "assets/images/img1.jpg",
         title: "LIFESTYLE",
         description: "A complete guide for your new born baby",
-        lessons: "16 lessons"),
+        lessons: 16),
     ImageRow(
         imageName: "assets/images/img2.jpg",
         title: "WORKING PARENT",
         description: "Understanding child behaviour",
-        lessons: "12 lessons"),
+        lessons: 12),
     ImageRow(
         imageName: "assets/images/img3.jpg",
         title: "WORK-LIFE BALANCE",
         description: "Managing life better in a productive way",
-        lessons: "10 lessons"),
+        lessons: 10),
   ];
 
   List<ImageRow> eventImageList = [
     ImageRow(
-        imageName: "assets/images/img4.jpg",
-        title: "CHILD CARE",
-        description: "A complete guide for your new born baby",
-        tag: true,
-        tagName: "event"),
+      imageName: "assets/images/img4.jpg",
+      title: "CHILD CARE",
+      description: "A complete guide for your new born baby",
+      tag: true,
+      tagName: "event",
+      lessons: 0,
+    ),
     ImageRow(
-        imageName: "assets/images/img5.jpg",
-        title: "CHILD CARE",
-        description: "Understanding child behaviour",
-        tag: true,
-        tagName: "event"),
+      imageName: "assets/images/img5.jpg",
+      title: "CHILD CARE",
+      description: "Understanding child behaviour",
+      tag: true,
+      tagName: "event",
+      lessons: 0,
+    ),
     ImageRow(
-        imageName: "assets/images/img4.jpg",
-        title: "CHILD CARE",
-        description: "Managing life better in a productive way",
-        tag: true,
-        tagName: "event"),
+      imageName: "assets/images/img4.jpg",
+      title: "CHILD CARE",
+      description: "Managing life better in a productive way",
+      tag: true,
+      tagName: "event",
+      lessons: 0,
+    ),
   ];
 
   List<ImageRow> lessonImageList = [
     ImageRow(
-        imageName: "assets/images/img4.jpg",
-        title: "BABY CARE",
-        description: "A complete guide for your new born baby",
-        tag: true,
-        tagName: "lesson"),
+      imageName: "assets/images/img4.jpg",
+      title: "BABY CARE",
+      description: "A complete guide for your new born baby",
+      tag: true,
+      tagName: "lesson",
+      lessons: 0,
+    ),
     ImageRow(
-        imageName: "assets/images/img5.jpg",
-        title: "BABY CARE",
-        description: "Understanding child behaviour",
-        tag: true,
-        tagName: "lesson"),
+      imageName: "assets/images/img5.jpg",
+      title: "BABY CARE",
+      description: "Understanding child behaviour",
+      tag: true,
+      tagName: "lesson",
+      lessons: 0,
+    ),
     ImageRow(
-        imageName: "assets/images/img4.jpg",
-        title: "BABY CARE",
-        description: "Managing life better in a productive way",
-        tag: true,
-        tagName: "lesson"),
+      imageName: "assets/images/img4.jpg",
+      title: "BABY CARE",
+      description: "Managing life better in a productive way",
+      tag: true,
+      tagName: "lesson",
+      lessons: 0,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    getLessons();
+    getPrograms();
     return SafeArea(
       child: Container(
         color: Colors.white,
@@ -90,11 +104,31 @@ class _HomePageState extends State<HomePage> {
               _selectedIndex = value;
             }),
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home,), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.book_outlined,), label: 'Learn'),
-              BottomNavigationBarItem(icon: Icon(Icons.hub_outlined,), label: 'Hub'),
-              BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline,), label: 'Chat'),
-              BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined,), label: 'Profile'),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                  ),
+                  label: 'Home'),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.book_outlined,
+                  ),
+                  label: 'Learn'),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.hub_outlined,
+                  ),
+                  label: 'Hub'),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.chat_bubble_outline,
+                  ),
+                  label: 'Chat'),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.account_circle_outlined,
+                  ),
+                  label: 'Profile'),
             ],
           ),
           body: Container(
@@ -165,11 +199,13 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         buildRowTitle("Programs for you"),
-                        buildCardTile(firstImageList),
+                        buildProgramsCardTile(),
+                        //buildCardTile(firstImageList),
                         buildRowTitle("Events and experiences"),
                         buildCardTile(eventImageList),
                         buildRowTitle("Lessons for you"),
-                        buildCardTile(lessonImageList),
+                        buildLessonsCardTile(),
+                        //buildCardTile(lessonImageList),
                       ],
                     ),
                   ),

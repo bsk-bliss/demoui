@@ -1,6 +1,55 @@
-import 'package:demoui/model/image_row.dart';
+import 'dart:convert';
+import 'package:demoui/util.dart';
 import 'package:flutter/material.dart';
+import 'package:demoui/config.dart';
+import 'package:demoui/model/image_row.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+List<String> imagesList = getImagesList();
+List<ImageRow> lessonList = [];
+List<ImageRow> programsList = [];
+Future getLessons() async {
+  var response = await http
+      .get(Uri.https(Config.lessonsApiUrl, Config.lessonsApiEndpoint));
+  var data = jsonDecode(response.body);
+  // var item1 = data['items'][0];
+  int i = 0;
+  for (var item in data['items']) {
+    final img = ImageRow(
+      imageName: imagesList[i],
+      description: item['name'],
+      title: item['category'],
+      lessons: item['lesson'],
+      tag: true,
+      tagName: "lesson",
+    );
+    lessonList.add(img);
+    i++;
+  }
+
+  print(lessonList.length);
+}
+
+Future getPrograms() async {
+  var response = await http
+      .get(Uri.https(Config.programsApiUrl, Config.programsApiEndpoint));
+  var data = jsonDecode(response.body);
+  // var item1 = data['items'][0];
+  int i = 0;
+  for (var item in data['items']) {
+    final img = ImageRow(
+      imageName: imagesList[i],
+      description: item['name'],
+      title: item['category'],
+      lessons: item['duration'],
+    );
+    programsList.add(img);
+    i++;
+  }
+
+  print(programsList.length);
+}
 
 AppBar buildAppBar() {
   return AppBar(
@@ -110,16 +159,64 @@ Widget buildRowTitle(String titleName) {
   );
 }
 
-Widget buildCardTile(List<ImageRow> imageList) {
+Widget buildLessonsCardTile() {
+  return Container(
+    width: 320.w,
+    height: 220.h,
+    margin: EdgeInsets.only(top: 25.h, right: 10.w, bottom: 25.h),
+    child: FutureBuilder(
+      future: getLessons(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: lessonList.length,
+            itemBuilder: (context, index) {
+              return builImageRowItem(lessonList[index]);
+            },
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    ),
+  );
+}
+
+Widget buildProgramsCardTile() {
+  return Container(
+    width: 320.w,
+    height: 220.h,
+    margin: EdgeInsets.only(top: 25.h, right: 10.w, bottom: 25.h),
+    child: FutureBuilder(
+      future: getPrograms(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: programsList.length,
+            itemBuilder: (context, index) {
+              return builImageRowItem(programsList[index]);
+            },
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    ),
+  );
+}
+
+Widget buildCardTile(List<ImageRow>? imageList) {
   return Container(
     width: 320.w,
     height: 220.h,
     margin: EdgeInsets.only(top: 25.h, right: 10.w, bottom: 25.h),
     child: ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: imageList.length,
+      itemCount: imageList?.length,
       itemBuilder: (context, index) {
-        return builImageRowItem(imageList[index]);
+        return builImageRowItem(imageList![index]);
       },
     ),
   );
@@ -128,7 +225,7 @@ Widget buildCardTile(List<ImageRow> imageList) {
 Widget builImageRowItem(ImageRow imageRow) {
   return Container(
     width: 240.w,
-    height: 200.h,
+    height: 220.h,
     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
     margin: EdgeInsets.only(right: 10.w, bottom: 5.h),
     decoration: BoxDecoration(
@@ -155,7 +252,7 @@ Widget builImageRowItem(ImageRow imageRow) {
               )),
         ),
         SizedBox(
-          height: 8.h,
+          height: 6.h,
         ),
         Text(
           imageRow.title,
@@ -163,15 +260,17 @@ Widget builImageRowItem(ImageRow imageRow) {
               const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
         ),
         SizedBox(
-          height: 8.h,
+          height: 6.h,
         ),
         Text(
           imageRow.description,
-          style:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 12.sp),
         ),
         SizedBox(
-          height: 12.h,
+          height: 10.h,
         ),
         imageRow.tag ? buildEventRow(imageRow) : buildCardRow(imageRow),
       ],
@@ -181,7 +280,8 @@ Widget builImageRowItem(ImageRow imageRow) {
 
 Widget buildEventRow(ImageRow imageRow) {
   return imageRow.tagName == "event"
-      ? buildEventWidget():buildLessonsWidget();
+      ? buildEventWidget()
+      : buildLessonsWidget();
 }
 
 Widget buildEventWidget() {
@@ -212,8 +312,16 @@ Widget buildLessonsWidget() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: const [
-      Text("3 min", style: TextStyle(color: Colors.grey,),),
-      Icon(Icons.shopping_bag_outlined, color: Colors.grey,),
+      Text(
+        "3 min",
+        style: TextStyle(
+          color: Colors.grey,
+        ),
+      ),
+      Icon(
+        Icons.shopping_bag_outlined,
+        color: Colors.grey,
+      ),
     ],
   );
 }
@@ -221,7 +329,7 @@ Widget buildLessonsWidget() {
 Widget buildCardRow(ImageRow imageRow) {
   return Row(
     children: [
-      Text(imageRow.lessons,
+      Text("${imageRow.lessons.toString()} lessons",
           style: TextStyle(
               color: Colors.grey,
               fontStyle: FontStyle.italic,
